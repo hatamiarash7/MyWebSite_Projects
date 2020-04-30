@@ -1,0 +1,31 @@
+version: "3.7"
+
+services:
+  app-1:
+    image: nodeapp:v1
+    container_name: app-1
+    environment:
+      - name=app1
+
+  app-2:
+    image: nodeapp:v1
+    container_name: app-2
+    environment:
+      - name=app2
+
+  app-3:
+    image: nodeapp:v1
+    container_name: app-3
+    environment:
+      - name=app3
+
+  caddy:
+    image: caddy:2.0.0-rc.3-alpine
+    ports:
+      - 5000:5000
+    volumes:
+      - ./caddy/Caddyfile:/etc/caddy/Caddyfile
+    depends_on:
+      - app-1
+      - app-2
+      - app-3

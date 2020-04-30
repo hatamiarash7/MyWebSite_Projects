@@ -1,0 +1,8 @@
+:5000 
+
+reverse_proxy app-1:5000 app-2:5000 app-3:5000 {
+    lb_policy       round_robin
+    health_path     /
+    health_port     5000
+	health_interval 10s
+}
