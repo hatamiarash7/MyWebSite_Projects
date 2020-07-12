@@ -1,0 +1,75 @@
+--- # Install Kubernetes
+
+- hosts: all
+  remote_user: kube
+  become: yes
+  become_method: sudo
+  connection: ssh
+  gather_facts: yes
+
+  tasks:
+    - include_tasks: docker_tasks.yml
+
+    - name: Disabling Swap on all nodes
+      shell: swapoff -a
+
+    - name: Commenting Swap entries in /etc/fstab
+      replace:
+        path: /etc/fstab
+        regexp: "(.*swap*)"
+        replace: '#\1'
+
+    - name: Add Kubernetes apt-key
+      apt_key:
+        url: https://packages.cloud.google.com/apt/doc/apt-key.gpg
+        state: present
+      retries: 3
+      delay: 10
+      register: result
+      until: result is succeeded
+
+    - name: Add Kubernetes APT repository
+      apt_repository:
+        repo: deb http://apt.kubernetes.io/ kubernetes-xenial main
+        state: present
+        filename: "kubernetes"
+      retries: 3
+      delay: 10
+      register: result
+      until: result is succeeded
+
+    - name: Install kubelet
+      apt:
+        name: kubelet
+        state: present
+        update_cache: true
+      retries: 3
+      delay: 10
+      register: result
+      until: result is succeeded
+
+    - name: Install kubeadm
+      apt:
+        name: kubeadm
+        state: present
+      retries: 3
+      delay: 10
+      register: result
+      until: result is succeeded
+
+- hosts: managers
+  remote_user: kube
+  become: yes
+  become_method: sudo
+  connection: ssh
+  gather_facts: yes
+
+  tasks:
+    - name: Install kubectl
+      apt:
+        name: kubectl
+        state: present
+      retries: 3
+      delay: 10
+      register: result
+      until: result is succeeded

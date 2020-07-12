@@ -1,0 +1,48 @@
+--- # Initialize master node
+
+- hosts: managers
+  remote_user: kube
+  become: yes
+  become_method: sudo
+  connection: ssh
+  gather_facts: yes
+
+  tasks:
+    - name: Remove debug file
+      file:
+        path: $HOME/cluster_init.txt
+        state: absent
+
+    - name: Initialize the cluster
+      shell: kubeadm init --pod-network-cidr=10.244.0.0/16 >> cluster_init.txt
+      args:
+        chdir: $HOME
+        creates: cluster_init.txt
+
+    - name: Create .kube directory
+      file:
+        path: $HOME/.kube
+        state: directory
+        mode: 0755
+
+    - name: Copy admin.conf to user's kube config
+      copy:
+        src: /etc/kubernetes/admin.conf
+        dest: $HOME/.kube/config
+        remote_src: yes
+        owner: kube
+
+    - name: Remove debug file
+      file:
+        path: $HOME/pod_network.txt
+        state: absent
+
+    - name: Install Pod network
+      shell: kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml >> pod_network.txt
+      args:
+        chdir: $HOME
+        creates: pod_network.txt
+      retries: 3
+      delay: 10
+      register: result
+      until: result is succeeded
