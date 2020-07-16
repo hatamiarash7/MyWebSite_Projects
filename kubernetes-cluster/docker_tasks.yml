@@ -1,5 +1,3 @@
-# Install Docker & Docker-compose
-
 - name: Install docker packages
   apt:
     name: "{{ item }}"
