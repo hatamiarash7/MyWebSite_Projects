@@ -2,6 +2,6 @@
 
 # راه اندازی کلاستر Kubernets
 
-آدرس پست : https://arash-hatami.ir/kubernetes-cluster/
+آدرس پست : https://arash-hatami.ir/kubernetes-cluster
 
 </div>
