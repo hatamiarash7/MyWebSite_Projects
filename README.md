@@ -1,7 +1,9 @@
-<div dir="rtl" align="center">
+<div align="center">
 تمامی پروژه های شرح داده شده در وب سایت
-<br>
-  Example projects that explained in my website
+</div>
+
+<div align="center">
+Example projects that explained in my website
 </div>
 
 ---
