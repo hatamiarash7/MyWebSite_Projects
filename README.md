@@ -1,7 +1,7 @@
 <div align="center">
 تمامی پروژه های شرح داده شده در وب سایت
 </div>
-<br></br>
+<br>
 <div align="center">
 Example projects that explained in my website
 </div>
