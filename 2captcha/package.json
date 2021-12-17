@@ -1,0 +1,17 @@
+{
+  "name": "2captcha",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "promise-poller": "^1.9.1",
+    "puppeteer-core": "^13.0.0",
+    "request": "^2.88.2",
+    "request-promise-native": "^1.0.9"
+  }
+}
